@@ -4,12 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { Brain, Menu, X } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import Auth from './Auth';
+import { User } from '@supabase/supabase-js';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
-  const [user, setUser] = useState(supabase.auth.getUser());
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,6 +22,11 @@ const Navbar: React.FC = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
+    
+    // Get initial user
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user);
+    });
     
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user || null);
