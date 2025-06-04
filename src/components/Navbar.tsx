@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Brain, Menu, X } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import Auth from './Auth';
-import { User } from '@supabase/supabase-js';
+import { User, Session } from '@supabase/supabase-js';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,7 +28,7 @@ const Navbar: React.FC = () => {
       setUser(user);
     });
     
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: string, session: Session | null) => {
       setUser(session?.user || null);
     });
 
