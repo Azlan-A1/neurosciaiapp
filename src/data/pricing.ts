@@ -3,7 +3,7 @@ import { PricingPlan } from '../types';
 export const pricingPlans: PricingPlan[] = [
   {
     name: "Individual",
-    price: "$49",
+    price: "$29",
     description: "Perfect for independent researchers and PhD students",
     features: [
       "Full access to AI research assistant",
@@ -16,7 +16,7 @@ export const pricingPlans: PricingPlan[] = [
   },
   {
     name: "Lab",
-    price: "$199",
+    price: "$99",
     description: "Ideal for small to medium research labs",
     features: [
       "Everything in Individual",
@@ -30,7 +30,7 @@ export const pricingPlans: PricingPlan[] = [
     popular: true
   },
   {
-    name: "Institution",
+    name: "Enterprise",
     price: "Custom",
     description: "For large labs and educational institutions",
     features: [
