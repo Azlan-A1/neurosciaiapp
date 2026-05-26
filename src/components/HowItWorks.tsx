@@ -1,79 +1,103 @@
-import React from 'react';
-import { Upload, Search, Database, FileOutput } from 'lucide-react';
+import { SectionHeader } from './Features'
 
-const HowItWorks: React.FC = () => {
-  const steps = [
-    {
-      icon: <Upload className="w-8 h-8 text-white" />,
-      title: "Upload Your Research",
-      description: "Import your research papers, experimental data, and video recordings directly into Neurosci AI's secure platform."
-    },
-    {
-      icon: <Search className="w-8 h-8 text-white" />,
-      title: "AI Analysis",
-      description: "Our specialized neural networks analyze your data, extract insights, and identify patterns that might otherwise be missed."
-    },
-    {
-      icon: <Database className="w-8 h-8 text-white" />,
-      title: "Cross-Reference",
-      description: "Your data is cross-referenced with our curated repository of neuroscience literature for comprehensive context."
-    },
-    {
-      icon: <FileOutput className="w-8 h-8 text-white" />,
-      title: "Generate Results",
-      description: "Receive publication-ready figures, detailed analysis reports, and actionable insights for your research."
-    }
-  ];
+const steps = [
+  {
+    id: '01',
+    title: 'Connect your data',
+    desc: 'Drop in raw recordings, imaging stacks, or behavioral video. Native readers for NWB, DANDI, OpenEphys, and standard lab formats.',
+    code: `$ neurosci connect ./session_A237/
+✔ detected: calcium-imaging (2P)
+✔ frames: 12,840 · 30Hz
+✔ metadata: synced from NWB`,
+  },
+  {
+    id: '02',
+    title: 'Run a lab-aware agent',
+    desc: 'Pick an agent — ROI extractor, behavior classifier, literature reviewer — or chain your own. Every step is inspectable.',
+    code: `> agent: lit-reviewer
+> goal: find protocols matching 470nm CA1
+→ 14 papers · 3 highly-cited · methods aligned
+→ deltaF/F thresholds within 1σ of consensus`,
+  },
+  {
+    id: '03',
+    title: 'Inspect, iterate, branch',
+    desc: 'Every run is reproducible. Diff parameters, branch experiments, and replay analyses across sessions without re-uploading.',
+    code: `git-like runs · A237@main
+├─ baseline      ΔF/F=0.18  cells=312
+├─ ▸ threshold↑  ΔF/F=0.22  cells=287
+└─   subset:CA3  ΔF/F=0.15  cells=104`,
+  },
+  {
+    id: '04',
+    title: 'Export figures & manuscripts',
+    desc: 'Generate publication-ready figures with journal presets, exportable as SVG/PDF, and methods sections grounded in your actual runs.',
+    code: `→ fig_3a.svg · Nature preset · vector
+→ methods.md · 412 words · 9 refs
+→ supplement.zip · raw + derived`,
+  },
+]
 
+export default function HowItWorks() {
   return (
-    <section className="py-20 bg-white" id="how-it-works">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            How Neurosci AI Works
-          </h2>
-          <p className="text-xl text-gray-600">
-            Our platform combines state-of-the-art AI models with neuroscience expertise to streamline your research workflow.
-          </p>
-        </div>
+    <section id="how-it-works" className="relative border-t border-white/5 py-28 sm:py-36">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <SectionHeader
+          eyebrow="Workflow"
+          title={
+            <>
+              From raw session to
+              <br className="hidden sm:block" />{' '}
+              <span className="text-gradient-accent">submitted paper.</span>
+            </>
+          }
+          subtitle="A linear path through the work — with the messy, iterative middle made tractable."
+        />
 
-        <div className="relative">
-          {/* Connection line */}
-          <div className="absolute hidden md:block left-1/2 top-12 bottom-12 w-0.5 bg-indigo-200 -translate-x-1/2"></div>
-          
-          <div className="space-y-12 md:space-y-0 relative">
-            {steps.map((step, index) => (
-              <div key={index} className="md:grid md:grid-cols-2 gap-8 items-center relative">
-                {/* Alternating layout */}
-                <div className={`md:col-span-1 ${index % 2 === 0 ? 'md:order-1' : 'md:order-2'}`}>
-                  <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl p-8 shadow-xl transform transition-transform hover:scale-105 duration-300">
-                    <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center mb-6">
-                      {step.icon}
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-3">{step.title}</h3>
-                    <p className="text-indigo-100">{step.description}</p>
-                  </div>
+        <div className="mt-20 space-y-6">
+          {steps.map((s, i) => (
+            <div
+              key={s.id}
+              className="relative grid grid-cols-1 gap-6 rounded-2xl border border-white/5 bg-ink-50/30 p-6 transition hover:border-white/10 lg:grid-cols-12 lg:gap-10 lg:p-8"
+            >
+              <div className="lg:col-span-5">
+                <div className="flex items-center gap-3">
+                  <span className="rounded-md border border-white/10 bg-ink-100 px-2 py-0.5 font-mono text-[11px] text-accent">
+                    {s.id}
+                  </span>
+                  <span className="font-mono text-[11px] uppercase tracking-wider text-ink-600">
+                    step {i + 1} of 4
+                  </span>
                 </div>
-                
-                {/* Connection indicator */}
-                <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white border-4 border-indigo-500 z-10"></div>
-                
-                <div className={`md:col-span-1 ${index % 2 === 0 ? 'md:order-2' : 'md:order-1'} hidden md:block`}>
-                  <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
-                    <img 
-                      src={`https://images.pexels.com/photos/${[4031818, 8926894, 3825584, 3861969][index]}/pexels-photo-${[4031818, 8926894, 3825584, 3861969][index]}.jpeg?auto=compress&cs=tinysrgb&w=1600`} 
-                      alt={`Step ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
+                <h3 className="mt-4 text-[24px] font-semibold tracking-tight text-ink-950 sm:text-[28px]">
+                  {s.title}
+                </h3>
+                <p className="mt-3 text-[15px] leading-relaxed text-ink-800">
+                  {s.desc}
+                </p>
+              </div>
+
+              <div className="lg:col-span-7">
+                <div className="rounded-lg border border-white/10 bg-ink-100/80 p-4">
+                  <div className="mb-3 flex items-center justify-between border-b border-white/5 pb-2">
+                    <div className="flex items-center gap-1.5">
+                      <span className="h-2 w-2 rounded-full bg-ink-400" />
+                      <span className="h-2 w-2 rounded-full bg-ink-400" />
+                      <span className="h-2 w-2 rounded-full bg-ink-400" />
+                    </div>
+                    <span className="font-mono text-[10px] text-ink-600">
+                      neurosci · {s.id}
+                    </span>
                   </div>
+                  <pre className="overflow-x-auto whitespace-pre-wrap font-mono text-[12.5px] leading-relaxed text-ink-800">
+                    {s.code}
+                  </pre>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
-  );
-};
-
-export default HowItWorks;
+  )
+}

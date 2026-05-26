@@ -1,34 +1,40 @@
-import { FeatureItem } from '../types';
+import { FeatureItem } from '../types'
 
 export const features: FeatureItem[] = [
   {
-    title: "Research Analysis",
-    description: "Analyze and summarize neuroscience research papers and experimental data with our fine-tuned language models.",
-    icon: "FileText"
+    title: 'Experiment analysis',
+    description:
+      'Drop in calcium imaging, ephys, or behavioral data — get ROI extraction, statistics, and quality control in minutes.',
+    icon: 'Activity',
   },
   {
-    title: "Intelligent Assistant",
-    description: "Interact with an AI assistant specifically trained on neuroscience literature to answer domain-specific queries.",
-    icon: "Brain"
+    title: 'Lab-trained assistant',
+    description:
+      'A research agent fluent in protocols, methods, and the last 30 years of neuroscience literature.',
+    icon: 'Brain',
   },
   {
-    title: "Video Analysis",
-    description: "Upload and analyze behavioral experiment videos using integrated models like DeepLabCut and AmadeusGPT.",
-    icon: "Video"
+    title: 'Video & behavior',
+    description:
+      'Native integrations with DeepLabCut, SLEAP, and AmadeusGPT for pose tracking and behavior annotation.',
+    icon: 'Video',
   },
   {
-    title: "Figure Generation",
-    description: "Automatically generate research-ready figures, charts, and citations from your raw experimental data.",
-    icon: "BarChart2"
+    title: 'Figure composer',
+    description:
+      'Publication-grade figures from raw data — vector output, journal style presets, reproducible source.',
+    icon: 'BarChart2',
   },
   {
-    title: "Literature Repository",
-    description: "Access our curated, searchable repository of neuroscience literature, annotated with AI-powered insights.",
-    icon: "Library"
+    title: 'Literature graph',
+    description:
+      'A continuously curated corpus of neuroscience papers with semantic search, citations, and method tags.',
+    icon: 'Library',
   },
   {
-    title: "Secure Authentication",
-    description: "Authenticate securely and manage lab data with granular access control for your research team.",
-    icon: "Shield"
-  }
-];
+    title: 'Lab-grade security',
+    description:
+      'SSO, granular roles, audit logs, and on-prem deployment options for sensitive cohorts and IRB workflows.',
+    icon: 'Shield',
+  },
+]

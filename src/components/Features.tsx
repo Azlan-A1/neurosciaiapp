@@ -1,68 +1,104 @@
-import React from 'react';
-import { 
-  FileText, 
-  Brain, 
-  Video, 
-  BarChart2, 
-  Library, 
+import {
+  Activity,
+  Brain,
+  Video,
+  BarChart2,
+  Library,
   Shield,
-  ChevronRight
-} from 'lucide-react';
-import { features } from '../data/features';
+  type LucideIcon,
+} from 'lucide-react'
+import { features } from '../data/features'
 
-const Features: React.FC = () => {
-  // Map feature icon strings to components
-  const getIcon = (iconName: string) => {
-    const iconProps = { className: "w-8 h-8 text-indigo-600" };
-    switch (iconName) {
-      case 'FileText': return <FileText {...iconProps} />;
-      case 'Brain': return <Brain {...iconProps} />;
-      case 'Video': return <Video {...iconProps} />;
-      case 'BarChart2': return <BarChart2 {...iconProps} />;
-      case 'Library': return <Library {...iconProps} />;
-      case 'Shield': return <Shield {...iconProps} />;
-      default: return <Brain {...iconProps} />;
-    }
-  };
+const iconMap: Record<string, LucideIcon> = {
+  Activity,
+  Brain,
+  Video,
+  BarChart2,
+  Library,
+  Shield,
+}
 
+export default function Features() {
   return (
-    <section className="py-20 bg-gray-100" id="features">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Accelerate Your Research with Advanced AI
-          </h2>
-          <p className="text-xl text-gray-600">
-            Neurosci AI integrates cutting-edge language models specifically fine-tuned for neuroscience research.
-          </p>
-        </div>
+    <section id="features" className="relative py-28 sm:py-36">
+      <div className="absolute inset-0 bg-grid mask-radial opacity-30" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
-            <div 
-              key={index} 
-              className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group"
-            >
-              <div className="p-6">
-                <div className="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center mb-4">
-                  {getIcon(feature.icon)}
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+        <SectionHeader
+          eyebrow="Platform"
+          title={
+            <>
+              One environment. Every step of
+              <br className="hidden sm:block" /> the research loop.
+            </>
+          }
+          subtitle="Neurosci AI replaces the fragmented stack of notebooks, plugins, and chat tools with a single, lab-aware workspace."
+        />
+
+        <div className="mt-16 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {features.map((f, i) => {
+            const Icon = iconMap[f.icon] ?? Brain
+            return (
+              <article
+                key={f.title}
+                className="group relative overflow-hidden rounded-xl border border-white/5 bg-ink-50/40 p-6 transition hover:border-white/10 hover:bg-ink-50/70"
+              >
+                <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent opacity-0 transition group-hover:opacity-100" />
+
+                <div className="flex items-center gap-3">
+                  <div className="grid h-9 w-9 place-items-center rounded-md border border-white/10 bg-ink-100 text-accent">
+                    <Icon className="h-4 w-4" />
+                  </div>
+                  <div className="font-mono text-[11px] uppercase tracking-wider text-ink-600">
+                    0{i + 1}
+                  </div>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-600 mb-4">{feature.description}</p>
-                <a 
-                  href="#" 
-                  className="inline-flex items-center text-indigo-600 font-medium group-hover:text-indigo-800 transition-colors"
-                >
-                  Learn more 
-                  <ChevronRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </div>
-            </div>
-          ))}
+
+                <h3 className="mt-5 text-[17px] font-semibold tracking-tight text-ink-950">
+                  {f.title}
+                </h3>
+                <p className="mt-2 text-[14px] leading-relaxed text-ink-800">
+                  {f.description}
+                </p>
+              </article>
+            )
+          })}
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Features;
+export function SectionHeader({
+  eyebrow,
+  title,
+  subtitle,
+  align = 'center',
+}: {
+  eyebrow?: string
+  title: React.ReactNode
+  subtitle?: string
+  align?: 'center' | 'left'
+}) {
+  const alignCls =
+    align === 'center'
+      ? 'mx-auto text-center max-w-3xl'
+      : 'text-left max-w-2xl'
+  return (
+    <div className={alignCls}>
+      {eyebrow && (
+        <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">
+          {eyebrow}
+        </div>
+      )}
+      <h2 className="mt-4 text-balance text-[34px] font-semibold leading-[1.1] tracking-tight text-ink-950 sm:text-5xl">
+        {title}
+      </h2>
+      {subtitle && (
+        <p className="mt-5 text-[16px] leading-relaxed text-ink-800">
+          {subtitle}
+        </p>
+      )}
+    </div>
+  )
+}

@@ -1,46 +1,46 @@
-import { PricingPlan } from '../types';
+import { PricingPlan } from '../types'
 
 export const pricingPlans: PricingPlan[] = [
   {
-    name: "Individual",
-    price: "$29",
-    description: "Perfect for independent researchers and PhD students",
+    name: 'Researcher',
+    price: '$29',
+    description: 'For independent researchers and PhD students.',
     features: [
-      "Full access to AI research assistant",
-      "5 GB storage for datasets",
-      "25 video analyses per month",
-      "Basic figure generation",
-      "Literature repository access"
+      'Full research assistant',
+      '5 GB project storage',
+      '25 video analyses / mo',
+      'Standard figure exports',
+      'Literature graph access',
     ],
-    cta: "Start Free Trial"
+    cta: 'Start free trial',
   },
   {
-    name: "Lab",
-    price: "$99",
-    description: "Ideal for small to medium research labs",
+    name: 'Lab',
+    price: '$99',
+    description: 'For working labs that need a shared environment.',
     features: [
-      "Everything in Individual",
-      "5 user accounts",
-      "50 GB shared storage",
-      "Unlimited video analyses",
-      "Advanced figure generation",
-      "Priority support"
+      'Everything in Researcher',
+      '5 seats included',
+      '50 GB shared storage',
+      'Unlimited video analyses',
+      'Journal figure presets',
+      'Priority support',
     ],
-    cta: "Start Free Trial",
-    popular: true
+    cta: 'Start free trial',
+    popular: true,
   },
   {
-    name: "Enterprise",
-    price: "Custom",
-    description: "For large labs and educational institutions",
+    name: 'Institution',
+    price: 'Custom',
+    description: 'For programs, centers, and IRB-bound deployments.',
     features: [
-      "Everything in Lab",
-      "Unlimited user accounts",
-      "Dedicated storage solutions",
-      "Custom model training",
-      "API access",
-      "Dedicated support manager"
+      'Everything in Lab',
+      'Unlimited seats',
+      'SSO, audit, on-prem option',
+      'Custom model fine-tuning',
+      'API & pipeline access',
+      'Dedicated success engineer',
     ],
-    cta: "Contact Sales"
-  }
-];
+    cta: 'Talk to us',
+  },
+]

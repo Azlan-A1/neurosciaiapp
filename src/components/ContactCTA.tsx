@@ -1,111 +1,139 @@
-import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react'
 
-const ContactCTA: React.FC = () => {
+export default function ContactCTA() {
   return (
-    <section className="py-20 bg-white overflow-hidden relative" id="contact">
-      <div className="absolute right-0 top-0 w-1/3 h-full bg-indigo-50 -skew-x-12 transform origin-top-right"></div>
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <section id="contact" className="relative overflow-hidden border-t border-white/5 py-28 sm:py-36">
+      <div className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[900px] -translate-x-1/2 rounded-full bg-accent/10 blur-[140px]" />
+      <div className="absolute inset-0 bg-grid mask-radial opacity-30" />
+
+      <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              Ready to Transform Your Neuroscience Research?
+            <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">
+              Request access
+            </div>
+            <h2 className="mt-4 text-balance text-[36px] font-semibold leading-[1.1] tracking-tight text-ink-950 sm:text-5xl">
+              Bring Neurosci AI
+              <br />
+              into your lab.
             </h2>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl">
-              Join leading research institutions already using Neurosci AI to accelerate their discoveries and streamline their workflow.
+            <p className="mt-5 max-w-md text-[15.5px] leading-relaxed text-ink-800">
+              We onboard a small number of labs each month. Tell us about your
+              setup and we&apos;ll get back within 48 hours with a tailored demo.
             </p>
-            
-            <div className="space-y-6">
-              <div className="flex items-start">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-                  <span className="text-green-600 font-bold">1</span>
+
+            <div className="mt-10 space-y-5">
+              {[
+                {
+                  k: '01',
+                  t: 'A real demo, on your data',
+                  d: 'Bring a representative session. We walk you through it end-to-end.',
+                },
+                {
+                  k: '02',
+                  t: '30-day pilot',
+                  d: 'Full platform access for your group, no commitment.',
+                },
+                {
+                  k: '03',
+                  t: 'White-glove integration',
+                  d: 'We help wire it into your existing pipelines, storage, and IRB workflows.',
+                },
+              ].map((s) => (
+                <div key={s.k} className="flex gap-4">
+                  <span className="grid h-7 w-7 flex-shrink-0 place-items-center rounded-md border border-white/10 bg-ink-100 font-mono text-[11px] text-accent">
+                    {s.k}
+                  </span>
+                  <div>
+                    <div className="text-[14.5px] font-medium text-ink-950">
+                      {s.t}
+                    </div>
+                    <div className="mt-0.5 text-[13.5px] text-ink-800">
+                      {s.d}
+                    </div>
+                  </div>
                 </div>
-                <div className="ml-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Schedule a Demo</h3>
-                  <p className="text-gray-600">See Neurosci AI in action with your own research data.</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-                  <span className="text-green-600 font-bold">2</span>
-                </div>
-                <div className="ml-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Free Trial Period</h3>
-                  <p className="text-gray-600">Experience the full platform for 30 days with your team.</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-                  <span className="text-green-600 font-bold">3</span>
-                </div>
-                <div className="ml-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Seamless Integration</h3>
-                  <p className="text-gray-600">Our team will help integrate Neurosci AI into your existing workflow.</p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
-          
-          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">Request a Demo</h3>
-            
-            <form className="space-y-4">
+
+          <form className="relative rounded-2xl border border-white/10 bg-ink-50/60 p-7 backdrop-blur sm:p-9">
+            <div className="space-y-5">
+              <Field
+                id="name"
+                label="Full name"
+                placeholder="Dr. Jane Smith"
+              />
+              <Field
+                id="email"
+                type="email"
+                label="Work email"
+                placeholder="jane.smith@university.edu"
+              />
+              <Field
+                id="institution"
+                label="Lab or institution"
+                placeholder="Stanford Neuroscience Institute"
+              />
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                <input 
-                  type="text" 
-                  id="name" 
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
-                  placeholder="Dr. Jane Smith"
+                <label
+                  htmlFor="focus"
+                  className="block font-mono text-[11px] uppercase tracking-wider text-ink-700"
+                >
+                  Research focus
+                </label>
+                <textarea
+                  id="focus"
+                  rows={4}
+                  placeholder="Calcium imaging in CA1 · optogenetic stimulation · behavior tracking…"
+                  className="mt-2 w-full resize-none rounded-md border border-white/10 bg-ink-100/60 px-3.5 py-2.5 text-[14px] text-ink-950 placeholder:text-ink-600 outline-none transition focus:border-accent/50 focus:bg-ink-100"
                 />
               </div>
-              
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Work Email</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
-                  placeholder="jane.smith@university.edu"
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="institution" className="block text-sm font-medium text-gray-700 mb-1">Institution</label>
-                <input 
-                  type="text" 
-                  id="institution" 
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
-                  placeholder="University of Science"
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Research Focus</label>
-                <textarea 
-                  id="message" 
-                  rows={4} 
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all resize-none"
-                  placeholder="Briefly describe your research focus and how you plan to use Neurosci AI."
-                ></textarea>
-              </div>
-              
-              <button 
-                type="submit" 
-                className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow transition-colors flex items-center justify-center"
+
+              <button
+                type="submit"
+                className="group inline-flex w-full items-center justify-center gap-2 rounded-md bg-accent px-5 py-3 text-[14px] font-medium text-ink-0 transition hover:bg-accent-glow"
               >
-                Schedule Your Demo
-                <ArrowRight className="ml-2 w-5 h-5" />
+                Request access
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </button>
-            </form>
-          </div>
+
+              <p className="text-center font-mono text-[11px] text-ink-600">
+                We reply within 48 hours · no marketing list
+              </p>
+            </div>
+          </form>
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default ContactCTA;
+function Field({
+  id,
+  label,
+  placeholder,
+  type = 'text',
+}: {
+  id: string
+  label: string
+  placeholder?: string
+  type?: string
+}) {
+  return (
+    <div>
+      <label
+        htmlFor={id}
+        className="block font-mono text-[11px] uppercase tracking-wider text-ink-700"
+      >
+        {label}
+      </label>
+      <input
+        id={id}
+        type={type}
+        placeholder={placeholder}
+        className="mt-2 w-full rounded-md border border-white/10 bg-ink-100/60 px-3.5 py-2.5 text-[14px] text-ink-950 placeholder:text-ink-600 outline-none transition focus:border-accent/50 focus:bg-ink-100"
+      />
+    </div>
+  )
+}

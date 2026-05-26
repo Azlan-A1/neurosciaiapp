@@ -1,44 +1,53 @@
-import React from 'react';
-import { Quote } from 'lucide-react';
-import { testimonials } from '../data/testimonials';
+import { testimonials } from '../data/testimonials'
+import { SectionHeader } from './Features'
 
-const Testimonials: React.FC = () => {
+export default function Testimonials() {
   return (
-    <section className="py-20 bg-gradient-to-b from-indigo-900 to-purple-900 text-white" id="testimonials">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Trusted by Leading Researchers
-          </h2>
-          <p className="text-xl text-indigo-200">
-            See how Neurosci AI is transforming research workflows in labs around the world.
-          </p>
-        </div>
+    <section id="testimonials" className="relative py-28 sm:py-36">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <SectionHeader
+          eyebrow="In the field"
+          title={
+            <>
+              Built with the labs
+              <br className="hidden sm:block" /> already using it.
+            </>
+          }
+        />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div 
-              key={index} 
-              className="bg-white/10 backdrop-blur-sm rounded-xl p-6 shadow-xl border border-white/20"
+        <div className="mt-16 grid grid-cols-1 gap-3 md:grid-cols-3">
+          {testimonials.map((t, i) => (
+            <figure
+              key={i}
+              className="group relative flex flex-col rounded-xl border border-white/5 bg-ink-50/40 p-7 transition hover:border-white/10 hover:bg-ink-50/70"
             >
-              <Quote className="w-10 h-10 text-indigo-300 mb-4" />
-              <p className="text-lg text-indigo-100 mb-6">"{testimonial.quote}"</p>
-              <div className="flex items-center">
-                <div className="w-12 h-12 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-xl">
-                  {testimonial.author.charAt(0)}
-                </div>
-                <div className="ml-4">
-                  <h4 className="text-lg font-semibold">{testimonial.author}</h4>
-                  <p className="text-indigo-300 text-sm">{testimonial.role}</p>
-                  <p className="text-indigo-300 text-sm">{testimonial.institution}</p>
-                </div>
+              <div className="font-mono text-[11px] uppercase tracking-wider text-ink-600">
+                — {t.institution.split(' ')[0]}
               </div>
-            </div>
+              <blockquote className="mt-5 flex-1 text-[16px] leading-relaxed text-ink-900">
+                &ldquo;{t.quote}&rdquo;
+              </blockquote>
+              <figcaption className="mt-6 flex items-center gap-3 border-t border-white/5 pt-5">
+                <div className="grid h-9 w-9 place-items-center rounded-full border border-white/10 bg-ink-100 font-mono text-[13px] text-accent">
+                  {t.author
+                    .split(' ')
+                    .map((n) => n[0])
+                    .slice(0, 2)
+                    .join('')}
+                </div>
+                <div>
+                  <div className="text-[14px] font-medium text-ink-950">
+                    {t.author}
+                  </div>
+                  <div className="text-[12px] text-ink-700">
+                    {t.role} · {t.institution}
+                  </div>
+                </div>
+              </figcaption>
+            </figure>
           ))}
         </div>
       </div>
     </section>
-  );
-};
-
-export default Testimonials;
+  )
+}

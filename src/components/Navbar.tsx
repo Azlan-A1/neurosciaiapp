@@ -1,165 +1,156 @@
-"use client";
+'use client'
 
-import React, { useState, useEffect } from 'react';
-import { Brain, Menu, X } from 'lucide-react';
-import { supabase } from '../lib/supabase';
-import Auth from './Auth';
-import { User, Session } from '@supabase/supabase-js';
+import { useState, useEffect } from 'react'
+import { Menu, X } from 'lucide-react'
+import { supabase } from '@/lib/supabase'
+import Auth from './Auth'
+import Logo from './Logo'
+import type { User, Session } from '@supabase/supabase-js'
 
-const Navbar: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [showAuth, setShowAuth] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
+const navLinks = [
+  { href: '#features', label: 'Platform' },
+  { href: '#how-it-works', label: 'Workflow' },
+  { href: '#stats', label: 'Impact' },
+  { href: '#pricing', label: 'Pricing' },
+  { href: '#contact', label: 'Contact' },
+]
+
+export default function Navbar() {
+  const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [showAuth, setShowAuth] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
 
-    window.addEventListener('scroll', handleScroll);
-    
-    // Get initial user
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user);
-    });
-    
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: string, session: Session | null) => {
-      setUser(session?.user || null);
-    });
+    supabase.auth.getUser().then(({ data }) => setUser(data.user))
+    const { data: sub } = supabase.auth.onAuthStateChange(
+      (_e: string, session: Session | null) => setUser(session?.user ?? null),
+    )
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      subscription.unsubscribe();
-    };
-  }, []);
+      window.removeEventListener('scroll', onScroll)
+      sub.subscription.unsubscribe()
+    }
+  }, [])
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-  };
+  const signOut = async () => {
+    await supabase.auth.signOut()
+  }
 
   return (
-    <nav 
-      className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white shadow-md py-2 text-gray-900' 
-          : 'bg-transparent py-4 text-white'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center">
-          {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <Brain className={`w-8 h-8 ${isScrolled ? 'text-indigo-600' : 'text-indigo-400'}`} />
-            <span className="text-xl font-bold">Neurosci AI</span>
-          </div>
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${
+          scrolled
+            ? 'border-b border-white/5 bg-ink-0/80 backdrop-blur-xl py-2.5'
+            : 'border-b border-transparent py-4'
+        }`}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-8">
+          <a href="#" className="flex items-center gap-2.5">
+            <Logo className="h-7 w-7" />
+            <span className="text-[15px] font-semibold tracking-tight text-ink-950">
+              Neurosci<span className="text-accent">.</span>AI
+            </span>
+          </a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <a href="#features" className="hover:text-indigo-400 transition-colors">Features</a>
-            <a href="#how-it-works" className="hover:text-indigo-400 transition-colors">How It Works</a>
-            <a href="#testimonials" className="hover:text-indigo-400 transition-colors">Testimonials</a>
-            <a href="#pricing" className="hover:text-indigo-400 transition-colors">Pricing</a>
-            <a href="#contact" className="hover:text-indigo-400 transition-colors">Contact</a>
-          </div>
+          <nav className="hidden items-center gap-1 md:flex">
+            {navLinks.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="rounded-md px-3 py-1.5 text-[13.5px] text-ink-800 transition hover:text-ink-950"
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
 
-          {/* CTA Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden items-center gap-2 md:flex">
             {user ? (
               <button
-                onClick={handleSignOut}
-                className={`px-4 py-2 rounded-lg font-medium ${
-                  isScrolled 
-                    ? 'text-indigo-600 hover:bg-indigo-50' 
-                    : 'text-white hover:bg-white/10'
-                  } transition-colors`}
+                onClick={signOut}
+                className="rounded-md px-3 py-1.5 text-[13.5px] text-ink-800 hover:text-ink-950"
               >
-                Sign Out
+                Sign out
               </button>
             ) : (
-              <>
-                <button
-                  onClick={() => setShowAuth(true)}
-                  className={`px-4 py-2 rounded-lg font-medium ${
-                    isScrolled 
-                      ? 'text-indigo-600 hover:bg-indigo-50' 
-                      : 'text-white hover:bg-white/10'
-                    } transition-colors`}
-                >
-                  Log In
-                </button>
-                <button
-                  onClick={() => setShowAuth(true)}
-                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium shadow transition-colors"
-                >
-                  Try for Free
-                </button>
-              </>
+              <button
+                onClick={() => setShowAuth(true)}
+                className="rounded-md px-3 py-1.5 text-[13.5px] text-ink-800 hover:text-ink-950"
+              >
+                Sign in
+              </button>
             )}
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button 
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-lg hover:bg-gray-100 focus:outline-none"
+            <a
+              href="#contact"
+              className="group inline-flex items-center gap-1.5 rounded-md bg-accent px-3.5 py-1.5 text-[13.5px] font-medium text-ink-0 transition hover:bg-accent-glow"
             >
-              {isMenuOpen ? (
-                <X className={`w-6 h-6 ${isScrolled ? 'text-gray-900' : 'text-white'}`} />
+              Request access
+              <span className="transition-transform group-hover:translate-x-0.5">
+                →
+              </span>
+            </a>
+          </div>
+
+          <button
+            onClick={() => setOpen(!open)}
+            className="rounded-md p-2 text-ink-900 md:hidden"
+            aria-label="Menu"
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
+
+        {open && (
+          <div className="border-t border-white/5 bg-ink-50 md:hidden">
+            <div className="mx-auto flex max-w-7xl flex-col gap-1 px-5 py-4">
+              {navLinks.map((l) => (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="rounded-md px-3 py-2 text-sm text-ink-800 hover:bg-white/5 hover:text-ink-950"
+                >
+                  {l.label}
+                </a>
+              ))}
+              <div className="my-2 h-px bg-white/5" />
+              {user ? (
+                <button
+                  onClick={signOut}
+                  className="rounded-md px-3 py-2 text-left text-sm text-ink-800 hover:bg-white/5"
+                >
+                  Sign out
+                </button>
               ) : (
-                <Menu className={`w-6 h-6 ${isScrolled ? 'text-gray-900' : 'text-white'}`} />
+                <button
+                  onClick={() => {
+                    setShowAuth(true)
+                    setOpen(false)
+                  }}
+                  className="rounded-md px-3 py-2 text-left text-sm text-ink-800 hover:bg-white/5"
+                >
+                  Sign in
+                </button>
               )}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
-          <div className="px-4 py-2 space-y-1">
-            <a href="#features" className="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 transition-colors">Features</a>
-            <a href="#how-it-works" className="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 transition-colors">How It Works</a>
-            <a href="#testimonials" className="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 transition-colors">Testimonials</a>
-            <a href="#pricing" className="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 transition-colors">Pricing</a>
-            <a href="#contact" className="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 transition-colors">Contact</a>
-          </div>
-          <div className="px-4 py-4 border-t border-gray-200 space-y-2">
-            {user ? (
-              <button
-                onClick={handleSignOut}
-                className="block w-full px-4 py-2 text-indigo-600 hover:bg-indigo-50 rounded-lg font-medium transition-colors"
+              <a
+                href="#contact"
+                onClick={() => setOpen(false)}
+                className="mt-1 rounded-md bg-accent px-3 py-2 text-center text-sm font-medium text-ink-0"
               >
-                Sign Out
-              </button>
-            ) : (
-              <>
-                <button
-                  onClick={() => setShowAuth(true)}
-                  className="block w-full px-4 py-2 text-indigo-600 hover:bg-indigo-50 rounded-lg font-medium transition-colors"
-                >
-                  Log In
-                </button>
-                <button
-                  onClick={() => setShowAuth(true)}
-                  className="block w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors"
-                >
-                  Try for Free
-                </button>
-              </>
-            )}
+                Request access
+              </a>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </header>
 
-      {/* Auth Modal */}
       {showAuth && <Auth onClose={() => setShowAuth(false)} />}
-    </nav>
-  );
-};
-
-export default Navbar;
+    </>
+  )
+}
